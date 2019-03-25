@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqh.admin.mapper.UserMapper">
+    <insert id="save" parameterType="User">
+        INSERT INTO
+            tb_user(
+            username,
+            nickname,
+            password,
+            salt,
+            email,
+            avatar
+        )
+        VALUES(
+                  #{username},
+                  #{nickname},
+                  #{password},
+                  #{salt},
+                  #{email},
+                  #{avatar}
+              )
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE ignore tb_user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

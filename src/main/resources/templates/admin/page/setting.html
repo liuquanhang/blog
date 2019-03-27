@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/head"></head>
+<title>系统设置</title>
+<link rel="stylesheet" th:href="@{/admin/css/setting.css}">
+<body>
+<!-- vue入口 -->
+<div id="app">
+    <div :class="'app-wrapper' + sidebarFlag">
+        <!-- aside -->
+        <div th:replace="admin/side"></div>
+
+        <!-- container -->
+        <el-container class="main-container">
+            <!-- header -->
+            <div style="background-color: rgb(84, 92, 100);" th:replace="admin/header"></div>
+
+            <!-- main -->
+            <el-main class="app-main">
+                <el-card>
+                    <h2>系统设置</h2>
+                    <!--<el-row :gutter="40">
+                            <el-col :span="12">
+                                <el-card class="card-category">
+                                    <div slot="header">
+                                        <span>全局设置</span>
+                                    </div>
+                                    <div>
+                                        <el-form label-width="80px">
+                                            <el-form-item required prop="old_password" :rules="[{ required: true, message: '请输入站点名称'}]" label="账号">
+                                                <el-input placeholder="请输入站点名称"></el-input>
+                                            </el-form-item>
+                                            <el-form-item>
+                                                <el-button type="primary" style="float:right;">保存设置</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </div>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-card class="card-tags">
+                                    <div slot="header">
+                                        <span>个性化设置</span>
+                                    </div>
+                                    <div>
+                                        <el-form label-width="100px">
+                                            <el-form-item required prop="zhihu" :rules="[{ required: true, message: '请输入知乎账号'}]" label="输入旧密码">
+                                                <el-input placeholder="请输入知乎账号"></el-input>
+                                            </el-form-item>
+                                            <el-form-item required prop="github" :rules="[{ required: true, message: '请输入Github账号'}]" label="输入新密码">
+                                                <el-input placeholder="请输入Github账号"></el-input>
+                                            </el-form-item>
+                                            <el-form-item>
+                                                <el-button type="danger" style="float:right;">保存设置</el-button>
+                                            </el-form-item>
+                                        </el-form>
+                                    </div>
+                                </el-card>
+                            </el-col>
+                        </el-row>-->
+
+                    <el-row :gutter="40">
+                        <el-col :span="18">
+                            <el-card class="card-category">
+                                <div slot="header">
+                                    <span>全局设置</span>
+                                </div>
+                                <div>
+                                    <h3>该模块暂未开发</h3>
+                                </div>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </el-card>
+            </el-main>
+        </el-container>
+    </div>
+</div>
+</body>
+<div th:replace="admin/common/js"></div>
+<script type="text/javascript" th:src="@{/admin/js/setting.js}"></script>
+</html>

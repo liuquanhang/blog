@@ -2,6 +2,8 @@ package com.lqh.admin.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.lqh.admin.dto.ArticleArchives;
 import com.lqh.admin.entity.*;
 import com.lqh.admin.exception.GlobalException;
@@ -11,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *@Author: null
@@ -37,7 +36,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Map<String, Object> findByPageForSite(int pageCode, int pageSize) {
-        return null;
+        PageHelper.startPage(pageCode,pageSize);
+        Page<Article> page = articleMapper.findByPageForSite();
+        List<Article> articleList = page.getResult();
+        findInit(articleList);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("total",page.getTotal());
+        map.put("data",articleList);
+        return map;
     }
 
     @Override

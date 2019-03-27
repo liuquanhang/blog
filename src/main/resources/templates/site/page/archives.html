@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 公共的CSS库 -->
+<head th:replace="/site/common/head"></head>
+<title>归档 | Tumo Blog</title>
+
+<body class="bg-grey">
+<!-- header -->
+<div th:replace="site/header"></div>
+<!-- main -->
+<div class="main-content archive-page clearfix">
+    <div class="categorys-item" th:each="item : ${archives}">
+        <div class="categorys-title" th:text="${item.date}"></div>
+        <div class="post-lists">
+            <div class="post-lists-body">
+                <div class="post-list-item" th:each="entity : ${item.articles}">
+                    <div class="post-list-item-container">
+                        <div class="item-label">
+                            <div class="item-title">
+                                <a th:href="'/article/' + ${entity.id}" th:text="${entity.title}"></a>
+                            </div>
+                            <div class="item-meta clearfix">
+                                <div class="item-meta-date">发布于 [[${#dates.format(entity.publishTime, 'yyyy-MM-dd')}]]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<div th:replace="site/footer"></div>
+<!-- 公共的JS库 -->
+<div th:include="site/common/js"></div>
+</body>
+</html>

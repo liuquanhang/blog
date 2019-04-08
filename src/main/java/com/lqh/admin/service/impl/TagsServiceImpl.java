@@ -28,7 +28,7 @@ public class TagsServiceImpl implements TagsService {
 
     @Override
     public List<Tags> findByArticleId(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if ( id != 0) {
             return tagsMapper.findByArticleId(id);
         } else {
             throw new GlobalException("参数错误");
@@ -52,7 +52,7 @@ public class TagsServiceImpl implements TagsService {
 
     @Override
     public Tags findById(Long id) {
-        if(!id.equals(null)&&id!=0){
+        if(id!=0){
             return tagsMapper.findById(id);
         }else{
             throw new GlobalException("参数错误");
@@ -60,7 +60,7 @@ public class TagsServiceImpl implements TagsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(Tags tags) {
         try{
             if(!exists(tags)){
@@ -76,7 +76,7 @@ public class TagsServiceImpl implements TagsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void update(Tags tags) {
         try {
             if (tags.getId() != 0) {
@@ -91,7 +91,7 @@ public class TagsServiceImpl implements TagsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long... ids) {
         if (ids != null && ids.length > 0) {
             try {

@@ -24,7 +24,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteByArticleId(Long id) {
         try {
-            if(!id.equals(null)&& id!=0){
+            if( id!=0){
                 //删除分类为空的行
                 if(exists(new ArticleCategory(id,0))){
                     articleCategoryMapper.deleteByArticleId(id);
@@ -42,7 +42,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteByCategoryId(Long id) {
         try {
-            if(!id.equals(null) && id !=0){
+            if( id !=0){
                 if(exists(new ArticleCategory(0,id))){
                     articleCategoryMapper.deleteByCategoryId(id);
                 }

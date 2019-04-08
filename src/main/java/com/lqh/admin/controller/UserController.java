@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ *@Author: null
+ *@Date: 12:36 2019/3/29
+ * 用户信息
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController{
@@ -48,7 +53,7 @@ public class UserController extends BaseController{
     @PostMapping("/update")
     public ResponseCode update(@RequestBody User user){
         try {
-            if(user.getPassword()!=null&& !user.getPassword().equals("")&& user.getCheckPass() != null && !"".equals(user.getCheckPass())) {
+            if(user.getPassword()!=null && !"".equals(user.getPassword()) && user.getCheckPass() != null && !"".equals(user.getCheckPass())) {
                 User u = userService.findByName((String) SecurityUtils.getSubject().getPrincipal());
                 //设置u.checkPass=旧密码
                 u.setCheckPass(user.getPassword());

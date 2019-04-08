@@ -28,12 +28,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findByName(String name) {
-        return null;
+        if(!name.isEmpty()){
+            return categoryMapper.findByName(name);
+        }else{
+            throw new GlobalException("参数错误");
+        }
     }
 
     @Override
     public List<Category> findByArticleId(Long id) {
-        return null;
+        if (!id.equals(null) && id != 0) {
+            return categoryMapper.findCategoryByArticleId(id);
+        } else {
+            throw new GlobalException("参数错误");
+        }
     }
 
     @Override

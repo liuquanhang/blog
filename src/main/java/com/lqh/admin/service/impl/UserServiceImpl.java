@@ -10,14 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ *@Author: null
+ *@Date: 12:27 2019/3/29
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserMapper userMapper;
+    private final PasswordHelper passwordHelper;
+
     @Autowired
-    UserMapper userMapper;
-    @Autowired
-    private PasswordHelper passwordHelper;
+    public UserServiceImpl(UserMapper userMapper,PasswordHelper passwordHelper){
+        this.userMapper = userMapper;
+        this.passwordHelper = passwordHelper;
+    }
     @Override
     public User findByName(String username) {
         if(!username.isEmpty()){
@@ -48,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(User user) {
         try{
             passwordHelper.encryptPassword(user);
@@ -60,11 +68,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void update(User user) {
         if(user.getId()!=0){
             try{
-                if(user.getPassword()!=null&&!user.getPassword().equals("")){
+                if(user.getPassword()!=null && !"".equals(user.getUsername())){
                     passwordHelper.encryptPassword(user);
                 }
                 userMapper.update(user);
@@ -76,9 +84,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long... ids) {
-        if(!ids.equals(null)&&ids.length>0){
+        if(ids.length>0){
             try {
                 for (long id:ids){
                     userMapper.delete(id);

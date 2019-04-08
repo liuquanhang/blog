@@ -142,7 +142,7 @@ public class SiteController {
 
     @RequestMapping("/search/{name}")
     public String findArchivesByTitle(@PathVariable("name") String title, Model model) {
-        if (title != null && !title.equals("")) {
+        if (title != null && !"".equals(title)) {
             model.addAttribute("article", articleService.findFuzzyByTitle(title));
             model.addAttribute("title", title);
             initFooter(model);

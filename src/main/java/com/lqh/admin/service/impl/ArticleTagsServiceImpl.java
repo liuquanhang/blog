@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ *@Author: null
+ *@Date: 12:29 2019/3/29
+ *
+ */
 @Service
 public class ArticleTagsServiceImpl implements ArticleTagsService {
 
@@ -20,7 +24,7 @@ public class ArticleTagsServiceImpl implements ArticleTagsService {
     ArticleTagsMapper articleTagsMapper;
     @Override
     public List<Tags> findByArticleId(Long articleId) {
-        if(!articleId.equals(null)&&articleId!=0){
+        if(articleId!=0){
             return articleTagsMapper.findByArticleId(articleId);
         }else{
             throw new GlobalException("参数错误");
@@ -28,9 +32,9 @@ public class ArticleTagsServiceImpl implements ArticleTagsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteByArticleId(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if (id != 0) {
             try {
                 if (exists(new ArticleTags(id, 0))) {  //从表中删除tag为空的一行数据
                     articleTagsMapper.deleteByArticleId(id);
@@ -45,9 +49,9 @@ public class ArticleTagsServiceImpl implements ArticleTagsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteByTagsId(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if (id != 0) {
             try {
                 if (exists(new ArticleTags(0, id))) {  //删除article为空的一行
                     articleTagsMapper.deleteByTagsId(id);

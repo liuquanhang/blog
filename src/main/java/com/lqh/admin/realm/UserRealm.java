@@ -2,9 +2,12 @@ package com.lqh.admin.realm;
 
 import com.lqh.admin.entity.User;
 import com.lqh.admin.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +31,19 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
+        String password = new String((char[])authenticationToken.getCredentials());
         User user = userService.findByName(username);
         if (user == null){
             throw new UnknownAccountException();
         }
+        String md5pwd = new Md5Hash(password,username).toHex();
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUsername(),
-                user.getPassword(),
+                user,
+                md5pwd,
                 ByteSource.Util.bytes(user.getSalt()),
                 getName()
         );
+        Session session = SecurityUtils.getSubject().getSession();
         return authenticationInfo;
     }
 

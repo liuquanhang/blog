@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lqh.admin.mapper.ArticleMapper">
     <!-- 条件查询 -->
-    <select id="findByPage" parameterType="Article" resultType="Article">
+    <select id="findByPage" parameterType="com.lqh.admin.entity.Article" resultType="com.lqh.admin.entity.Article">
         SELECT * FROM tb_article WHERE 1=1
         <if test="title != null">
             AND title LIKE CONCAT('%', #{title}, '%')
@@ -12,7 +12,7 @@
     </select>
 
     <!-- 保存 -->
-    <insert id="save" parameterType="Article">
+    <insert id="save" parameterType="com.lqh.admin.entity.Article">
         INSERT ignore INTO
             tb_article(
             title,

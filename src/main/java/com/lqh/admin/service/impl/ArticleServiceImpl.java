@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> page = articleMapper.findByPageForSite();
         List<Article> articleList = page.getResult();
         findInit(articleList);
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>(16);
         map.put("total",page.getTotal());
         map.put("data",articleList);
         return map;
@@ -80,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addEyeCount(Long id) {
-        if(!id.equals(null) && id!=0){
+        if(id!=0){
             try {
                 articleMapper.addEyeCount(id);
             }catch (Exception e){
@@ -116,7 +116,7 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 List<Tags> tagsList = tagsService.findByArticleId(article.getId());
                 List<String> stringList = new ArrayList<>();
-                tagsList.forEach(tags -> {
+                tagsList.forEach(tags ->{
                     stringList.add(tags.getName());
                 });
                 article.setTags(JSON.toJSONString(tagsList));
@@ -126,7 +126,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article findById(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if ( id != 0) {
             Article article = articleMapper.findById(id);
             List<Article> articleList = new ArrayList<>();
             articleList.add(article);
@@ -140,8 +140,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(Article article) {
+        String state = "1";
         try{
-            if(article.getState()=="1"){
+            if(article.getState().equals(state)){
                 article.setPublishTime(new Date());
             }
             article.setEditTime(new Date());
@@ -167,7 +168,7 @@ public class ArticleServiceImpl implements ArticleService {
             if(article.getTags()!=null){
                 //证明新插入的文章有标签数据，将标签数据保存到标签表中
                 //前端传来的标签是JSON字符串格式的标签名称
-                List<String> list = (List<String>) JSONArray.parse(article.getTags());
+                List<String> list = (List)JSONArray.parse(article.getTags());
                 if(list.size()>0){
                     list.forEach(name->{
                         tagsService.save(new Tags(name));
@@ -198,11 +199,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long... ids) {
-        if(ids.length>0 && !ids.equals(null)){
+        if(ids.length>0){
             try {
                 for (long id:ids){
                     articleMapper.delete(id);
-                    articleCategoryService.deleteByCategoryId(id);
+                    articleCategoryService.deleteByArticleId(id);
                     articleTagsService.deleteByArticleId(id);
                 }
             }catch (Exception e){

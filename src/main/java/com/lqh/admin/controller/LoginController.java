@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController extends BaseController{
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public LoginController(UserService userService){
+        this.userService = userService;
+    }
 
     /**
      *@Author: null
@@ -55,11 +59,12 @@ public class LoginController extends BaseController{
                               @RequestParam(value = "username",required = false)String username,
                               @RequestParam(value = "password",required = false)String password,
                               @RequestParam(value = "remember",required = false)String remember){
+
         if(username!=null && password != null){
             Subject subject = getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(username,password);
             if(remember != null){
-                if(remember.equals("true")){
+                if("true".equals(remember)){
                     //用户选择"记住我"
                     token.setRememberMe(true);
                 }else {

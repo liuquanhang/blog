@@ -38,7 +38,7 @@ public class BaseController {
     }
 
     private Map<String,Object> getData(PageInfo<?> pageInfo){
-        HashMap<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("rows",pageInfo.getList());
         data.put("total",pageInfo.getTotal());
         return data;

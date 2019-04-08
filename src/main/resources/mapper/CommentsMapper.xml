@@ -4,7 +4,7 @@
 <mapper namespace="com.lqh.admin.mapper.CommentsMapper">
 
     <!-- 条件查询 -->
-    <select id="findByPage" parameterType="Comments" resultType="Comments">
+    <select id="findByPage" parameterType="com.lqh.admin.entity.Comments" resultType="com.lqh.admin.entity.Comments">
         SELECT * FROM tb_comments
         WHERE 1=1
         <if test="author != null">
@@ -13,7 +13,7 @@
     </select>
 
     <!-- 查询所有评论信息列表 -->
-    <select id="findCommentsList" resultType="Comments">
+    <select id="findCommentsList" resultType="com.lqh.admin.entity.Comments">
         SELECT * FROM tb_comments WHERE 1=1
         <if test="articleId != 0">
             AND article_id = #{articleId}
@@ -22,7 +22,7 @@
     </select>
 
     <!-- 查询所有父级文章留言信息 -->
-    <select id="findAllId" resultType="Comments">
+    <select id="findAllId" resultType="com.lqh.admin.entity.Comments">
         SELECT * FROM tb_comments WHERE p_id = 0 AND c_id = 0
         <if test="articleId != 0">
             AND article_id = #{articleId}
@@ -31,7 +31,7 @@
     </select>
 
     <!-- 保存 -->
-    <insert id="save" parameterType="Comments">
+    <insert id="save" parameterType="com.lqh.admin.entity.Comments">
         INSERT  INTO
             tb_comments(
             p_id,
@@ -64,7 +64,7 @@
     </insert>
 
     <!-- 更新 -->
-    <update id="update" parameterType="Comments">
+    <update id="update" parameterType="com.lqh.admin.entity.Comments">
         UPDATE ignore tb_comments
         <set>
             <if test="pId != null">

@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ *@Author: null
+ *@Date: 12:32 2019/3/29
+ *
+ */
 @Service
 public class LinksServiceImpl implements LinksService {
 
@@ -34,7 +38,7 @@ public class LinksServiceImpl implements LinksService {
 
     @Override
     public Links findById(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if ( id != 0) {
             return linksMapper.findById(id);
         } else {
             throw new GlobalException("参数错误");
@@ -42,7 +46,7 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(Links links) {
         try {
             linksMapper.save(links);
@@ -53,7 +57,7 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void update(Links links) {
         if (links.getId() != 0) {
             try {
@@ -66,9 +70,9 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long... ids) {
-        if (!ids.equals(null) && ids.length > 0) {
+        if (ids.length > 0) {
             try {
                 for (long id : ids) {
                     linksMapper.delete(id);

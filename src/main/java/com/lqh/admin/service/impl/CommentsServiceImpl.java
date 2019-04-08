@@ -80,7 +80,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public Long findCountByArticle(Long articleId) {
-        if (!articleId.equals(null) && articleId != 0) {
+        if ( articleId != 0) {
             return commentsMapper.findCountByArticleId(articleId);
         } else {
             throw new GlobalException("参数错误");
@@ -89,7 +89,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public Comments findById(Long id) {
-        if (!id.equals(null) && id != 0) {
+        if ( id != 0) {
             return commentsMapper.findById(id);
         } else {
             throw new GlobalException("参数错误");
@@ -122,7 +122,7 @@ public class CommentsServiceImpl implements CommentsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long... ids) {
-        if (ids.length > 0 && !ids.equals(null)) {
+        if (ids.length > 0 ) {
             try {
                 for (long id : ids) {
                     commentsMapper.delete(id);

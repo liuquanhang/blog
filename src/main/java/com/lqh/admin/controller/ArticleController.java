@@ -38,6 +38,11 @@ public class ArticleController extends BaseController{
         return ResponseCode.success(articleService.findAll());
     }
 
+    @GetMapping(value = "/findAllCount")
+    public ResponseCode findAllCount() {
+        return ResponseCode.success(articleService.findAllCount());
+    }
+
     @GetMapping(value = "/findByPage")
     public ResponseCode findByPage(QueryPage queryPage, Article article){
         return ResponseCode.success(super.selectByPageNumSize(queryPage,()->articleService.findByPage(article)));
@@ -91,6 +96,17 @@ public class ArticleController extends BaseController{
             articleService.delete(ids);
             return ResponseCode.success();
         }catch (Exception e){
+            e.printStackTrace();
+            throw new GlobalException(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/update")
+    public ResponseCode update(@RequestBody Article article) {
+        try {
+            articleService.update(article);
+            return ResponseCode.success();
+        } catch (Exception e) {
             e.printStackTrace();
             throw new GlobalException(e.getMessage());
         }
